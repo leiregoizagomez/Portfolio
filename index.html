@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+<html lang="es"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tu Nombre</title>
+<title>Yo soy Dani</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@300;400;500&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -505,15 +503,15 @@ footer {
 }
 </style>
 </head>
-<body>
+<body style="overflow: hidden;">
 
 <!-- HERO -->
 <section id="hero">
-  <h1 id="heroName">Tu Nombre</h1>
+  <h1 id="heroName">Yo soy Dani</h1>
   <p id="heroSub">Fotografía · Bellas Artes</p>
   <div class="hero-links">
     <a href="#about">Info</a>
-    <a href="https://instagram.com" target="_blank" id="heroIg">Instagram</a>
+    <a href="https://instagram.com/" target="_blank" id="heroIg">Instagram</a>
   </div>
   <div class="scroll-hint">
     <div class="scroll-arrow"></div>
@@ -521,22 +519,22 @@ footer {
 </section>
 
 <!-- PROJECTS GRID -->
-<section id="projects"></section>
+<section id="projects"><div class="project-row two"><div class="project-thumb"><div class="project-thumb-placeholder">Serie Umbral</div><div class="project-thumb-overlay"><p class="overlay-title">Serie Umbral</p><p class="overlay-year">2024</p></div></div><div class="project-thumb"><div class="project-thumb-placeholder">Cuerpo y espacio</div><div class="project-thumb-overlay"><p class="overlay-title">Cuerpo y espacio</p><p class="overlay-year">2023</p></div></div></div><div class="project-row three"><div class="project-thumb"><div class="project-thumb-placeholder">Memoria de lugar</div><div class="project-thumb-overlay"><p class="overlay-title">Memoria de lugar</p><p class="overlay-year">2024</p></div></div><div class="project-thumb"><div class="project-thumb-placeholder">Luz de tarde</div><div class="project-thumb-overlay"><p class="overlay-title">Luz de tarde</p><p class="overlay-year">2023</p></div></div><div class="project-thumb"><div class="project-thumb-placeholder">Naturaleza quieta</div><div class="project-thumb-overlay"><p class="overlay-title">Naturaleza quieta</p><p class="overlay-year">2022</p></div></div></div><div class="project-row one"><div class="project-thumb"><div class="project-thumb-placeholder">Retrato sin rostro</div><div class="project-thumb-overlay"><p class="overlay-title">Retrato sin rostro</p><p class="overlay-year">2024</p></div></div></div><div class="project-row two-third"><div class="project-thumb"><div class="project-thumb-placeholder">Lo doméstico</div><div class="project-thumb-overlay"><p class="overlay-title">Lo doméstico</p><p class="overlay-year">2023</p></div></div><div class="project-thumb"><div class="project-thumb-placeholder">Agua y tiempo</div><div class="project-thumb-overlay"><p class="overlay-title">Agua y tiempo</p><p class="overlay-year">2022</p></div></div></div><div class="project-row one-third"><div class="project-thumb"><div class="project-thumb-placeholder">Archivo familiar</div><div class="project-thumb-overlay"><p class="overlay-title">Archivo familiar</p><p class="overlay-year">2023</p></div></div><div class="project-thumb"><div class="project-thumb-placeholder">Trabajo de campo</div><div class="project-thumb-overlay"><p class="overlay-title">Trabajo de campo</p><p class="overlay-year">2024</p></div></div></div></section>
 
 <!-- ABOUT -->
 <section id="about">
   <div>
-    <p class="about-name" id="aboutName">Tu Nombre</p>
-    <p class="about-text" id="aboutText1">Artista visual licenciada en Bellas Artes. Mi trabajo explora [escribe aquí tu propuesta artística].</p>
+    <p class="about-name" id="aboutName">Yo soy Dani</p>
+    <p class="about-text" id="aboutText1">Artista visual licenciada en Bellas Artes. Mi trabajo explora [tu propuesta artística].</p>
     <p class="about-text" id="aboutText2">Disponible para proyectos, colaboraciones y exposiciones.</p>
   </div>
   <div class="about-contact">
     <a href="mailto:tu@email.com" id="aboutEmail">tu@email.com</a>
-    <a href="https://instagram.com" target="_blank" id="aboutIg">Instagram</a>
+    <a href="https://instagram.com/" target="_blank" id="aboutIg">Instagram</a>
   </div>
 </section>
 
-<footer>© <span id="footerYear"></span> <span id="footerName">Tu Nombre</span></footer>
+<footer>© <span id="footerYear">2026</span> <span id="footerName">Yo soy Dani</span></footer>
 
 <!-- PROJECT VIEW -->
 <div id="project-view">
@@ -571,27 +569,127 @@ footer {
 <button class="admin-btn" onclick="openAdmin()">✦ Editar</button>
 
 <!-- ADMIN OVERLAY -->
-<div class="admin-overlay" id="adminOverlay" onclick="closeAdmin()"></div>
+<div class="admin-overlay open" id="adminOverlay" onclick="closeAdmin()"></div>
 
 <!-- ADMIN PANEL -->
-<div class="admin-panel" id="adminPanel">
+<div class="admin-panel open" id="adminPanel">
   <div class="ap-head">
     <span class="ap-head-title">Panel de edición</span>
     <button class="ap-close" onclick="closeAdmin()">✕</button>
   </div>
   <div class="ap-tabs">
-    <button class="ap-tab active" onclick="apTab('projects', this)">Proyectos</button>
-    <button class="ap-tab" onclick="apTab('site', this)">Sitio</button>
+    <button class="ap-tab" onclick="apTab('projects', this)">Proyectos</button>
+    <button class="ap-tab active" onclick="apTab('site', this)">Sitio</button>
   </div>
   <div class="ap-body" id="apBody">
-    <div id="apProjects">
+    <div id="apProjects" style="display: none;">
       <p class="ap-section">Proyectos</p>
-      <div class="ap-project-list" id="apProjectList"></div>
+      <div class="ap-project-list" id="apProjectList">
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">01</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Serie Umbral</p>
+        <p class="apr-meta">2024 · 5 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(0)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">02</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Cuerpo y espacio</p>
+        <p class="apr-meta">2023 · 4 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(1)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">03</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Memoria de lugar</p>
+        <p class="apr-meta">2024 · 3 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(2)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">04</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Luz de tarde</p>
+        <p class="apr-meta">2023 · 4 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(3)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">05</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Naturaleza quieta</p>
+        <p class="apr-meta">2022 · 3 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(4)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">06</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Retrato sin rostro</p>
+        <p class="apr-meta">2024 · 4 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(5)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">07</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Lo doméstico</p>
+        <p class="apr-meta">2023 · 3 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(6)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">08</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Agua y tiempo</p>
+        <p class="apr-meta">2022 · 3 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(7)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">09</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Archivo familiar</p>
+        <p class="apr-meta">2023 · 3 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(8)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">10</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Trabajo de campo</p>
+        <p class="apr-meta">2024 · 3 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(9)">Editar</button>
+    </div>
+  </div>
       <div style="margin-top:.75rem;">
         <button class="abtn abtn-ghost abtn-full" onclick="addProject()">+ Añadir proyecto</button>
       </div>
     </div>
-    <div id="apSite" style="display:none;">
+    <div id="apSite" style="">
       <p class="ap-section">Nombre</p>
       <div class="af"><label>Tu nombre</label><input id="sName" type="text"></div>
       <p class="ap-section">Hero</p>
@@ -606,6 +704,7 @@ footer {
   </div>
   <div class="ap-footer">
     <button class="abtn abtn-ghost" onclick="closeAdmin()">Cancelar</button>
+    <button class="abtn abtn-ghost" onclick="exportHTML()" style="border-color:#3a5a3a;color:#7ac142;">↓ Descargar web</button>
     <button class="abtn abtn-white" onclick="saveAll()">Guardar</button>
   </div>
 </div>
@@ -653,7 +752,7 @@ footer {
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast">Guardado</div>
 
 <script>
 /* ══════════════════════════════════════
@@ -702,7 +801,17 @@ const DEFAULT_SITE = {
   email:"tu@email.com", ig:"https://instagram.com/"
 };
 
+
+  /* DATOS GUARDADOS — generado automáticamente */
+  const _SAVED_PROJECTS = [{"name":"Serie Umbral","year":"2024","technique":"Fotografía analógica · 35mm","desc":"Una exploración del concepto de límite a través de puertas, ventanas y espacios intermedios.","cover":null,"photos":[{"src":null,"cap":"Umbral I"},{"src":null,"cap":"Umbral II"},{"src":null,"cap":"Umbral III"},{"src":null,"cap":"Umbral IV"},{"src":null,"cap":"Umbral V"}]},{"name":"Cuerpo y espacio","year":"2023","technique":"Fotografía digital","desc":"Serie sobre la relación entre el cuerpo humano y la arquitectura.","cover":null,"photos":[{"src":null,"cap":"I"},{"src":null,"cap":"II"},{"src":null,"cap":"III"},{"src":null,"cap":"IV"}]},{"name":"Memoria de lugar","year":"2024","technique":"Medio formato","desc":"Espacios abandonados como depositarios de memoria colectiva.","cover":null,"photos":[{"src":null,"cap":"I"},{"src":null,"cap":"II"},{"src":null,"cap":"III"}]},{"name":"Luz de tarde","year":"2023","technique":"Fotografía digital","desc":"La hora dorada como tiempo suspendido.","cover":null,"photos":[{"src":null,"cap":"I"},{"src":null,"cap":"II"},{"src":null,"cap":"III"},{"src":null,"cap":"IV"}]},{"name":"Naturaleza quieta","year":"2022","technique":"Large format","desc":"Naturalezas muertas en diálogo con la tradición pictórica.","cover":null,"photos":[{"src":null,"cap":"I"},{"src":null,"cap":"II"},{"src":null,"cap":"III"}]},{"name":"Retrato sin rostro","year":"2024","technique":"Fotografía analógica","desc":"La identidad más allá del rostro.","cover":null,"photos":[{"src":null,"cap":"I"},{"src":null,"cap":"II"},{"src":null,"cap":"III"},{"src":null,"cap":"IV"}]},{"name":"Lo doméstico","year":"2023","technique":"Fotografía digital","desc":"El hogar como escenario de la vida interior.","cover":null,"photos":[{"src":null,"cap":"I"},{"src":null,"cap":"II"},{"src":null,"cap":"III"}]},{"name":"Agua y tiempo","year":"2022","technique":"Larga exposición","desc":"El agua como metáfora del tiempo.","cover":null,"photos":[{"src":null,"cap":"I"},{"src":null,"cap":"II"},{"src":null,"cap":"III"}]},{"name":"Archivo familiar","year":"2023","technique":"Técnica mixta","desc":"Intervención sobre fotografías familiares.","cover":null,"photos":[{"src":null,"cap":"I"},{"src":null,"cap":"II"},{"src":null,"cap":"III"}]},{"name":"Trabajo de campo","year":"2024","technique":"Fotografía documental","desc":"Entornos naturales con mirada artística.","cover":null,"photos":[{"src":null,"cap":"I"},{"src":null,"cap":"II"},{"src":null,"cap":"III"}]}];
+  const _SAVED_SITE     = {"name":"Yo soy Dani","sub":"Fotografía · Bellas Artes","text1":"Artista visual licenciada en Bellas Artes. Mi trabajo explora [tu propuesta artística].","text2":"Disponible para proyectos, colaboraciones y exposiciones.","email":"tu@email.com","ig":"https://instagram.com/"};
+  
+
 function loadData() {
+  // Si hay datos incrustados al exportar, úsalos directamente
+  if (typeof _SAVED_PROJECTS !== 'undefined' && typeof _SAVED_SITE !== 'undefined') {
+    return { projects: _SAVED_PROJECTS, site: _SAVED_SITE };
+  }
   try {
     const p = localStorage.getItem('pf2_projects');
     const s = localStorage.getItem('pf2_site');
@@ -1037,6 +1146,43 @@ async function deleteProject() {
 }
 
 /* ══════════════════════════════════════
+   EXPORTAR HTML con datos incrustados
+══════════════════════════════════════ */
+function exportHTML() {
+  // Primero guarda cualquier cambio pendiente del panel de sitio
+  SITE.name  = document.getElementById('sName').value  || SITE.name;
+  SITE.sub   = document.getElementById('sSub').value   || SITE.sub;
+  SITE.text1 = document.getElementById('sText1').value || SITE.text1;
+  SITE.text2 = document.getElementById('sText2').value || SITE.text2;
+  SITE.email = document.getElementById('sEmail').value || SITE.email;
+  SITE.ig    = document.getElementById('sIg').value    || SITE.ig;
+  save();
+
+  // Lee el HTML actual de la página
+  const html = document.documentElement.outerHTML;
+
+  // Reemplaza los datos por defecto con los actuales incrustados en el script
+  const injection = `
+  /* DATOS GUARDADOS — generado automáticamente */
+  const _SAVED_PROJECTS = ${JSON.stringify(PROJECTS)};
+  const _SAVED_SITE     = ${JSON.stringify(SITE)};
+  `;
+
+  // Inserta los datos justo antes del cierre del script principal
+  const exported = html.replace(
+    '/* EXPORT_HOOK */',
+    injection
+  );
+
+  const blob = new Blob([exported], { type: 'text/html;charset=utf-8' });
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  a.download = 'index.html';
+  a.click();
+  showToast('Descargando index.html…');
+}
+
+/* ══════════════════════════════════════
    TOAST
 ══════════════════════════════════════ */
 function showToast(msg) {
@@ -1052,5 +1198,6 @@ function showToast(msg) {
 applySite();
 renderGrid();
 </script>
-</body>
-</html>
+
+
+</body></html>
