@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://leiregoizagomez.github.io/Portfolio/ -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leire Gómez </title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./index_files/css2" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #1a1a1a;
+  --gray: #888;
+  --light: #ccc;
+  --white: #fff;
+  --font: 'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--font);
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+#hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+#hero h1 {
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--black);
+  margin-bottom: .75rem;
+}
+
+#hero p {
+  font-size: .8rem;
+  color: var(--gray);
+  letter-spacing: .1em;
+}
+
+.hero-links {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+.hero-links a {
+  font-size: .75rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--gray);
+  transition: color .2s;
+}
+.hero-links a:hover { color: var(--black); }
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
+  color: var(--light);
+  font-size: .65rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.scroll-arrow {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, var(--light));
+  animation: scrollAnim 1.8s ease-in-out infinite;
+}
+@keyframes scrollAnim {
+  0%, 100% { transform: scaleY(1); opacity: .4; }
+  50% { transform: scaleY(1.3); opacity: 1; }
+}
+
+/* ── PROJECTS GRID (página principal) ── */
+#projects {
+  width: 100%;
+}
+
+.project-row {
+  display: grid;
+  gap: 0;
+}
+
+/* Filas alternadas: 2 columnas grandes / 3 columnas / etc */
+.project-row.two   { grid-template-columns: 1fr 1fr; }
+.project-row.three { grid-template-columns: 1fr 1fr 1fr; }
+.project-row.one   { grid-template-columns: 1fr; }
+.project-row.two-third { grid-template-columns: 2fr 1fr; }
+.project-row.one-third { grid-template-columns: 1fr 2fr; }
+
+.project-thumb {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 4/3;
+}
+
+.project-row.two .project-thumb { aspect-ratio: 4/3; }
+.project-row.three .project-thumb { aspect-ratio: 3/4; }
+.project-row.one .project-thumb { aspect-ratio: 16/7; }
+.project-row.two-third .project-thumb:first-child { aspect-ratio: 3/2; }
+.project-row.two-third .project-thumb:last-child  { aspect-ratio: 3/4; }
+.project-row.one-third .project-thumb:first-child { aspect-ratio: 3/4; }
+.project-row.one-third .project-thumb:last-child  { aspect-ratio: 3/2; }
+
+.project-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .7s cubic-bezier(.25,.46,.45,.94), filter .4s;
+  filter: brightness(1);
+}
+
+.project-thumb-placeholder {
+  width: 100%; height: 100%;
+  background: #e8e8e8;
+  display: flex; align-items: center; justify-content: center;
+  color: #aaa; font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+}
+
+.project-thumb-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+
+.project-thumb:hover .project-thumb-overlay { opacity: 1; }
+.project-thumb:hover img { transform: scale(1.04); filter: brightness(.85); }
+
+.overlay-title {
+  color: #fff;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 400;
+  letter-spacing: .06em;
+  margin-bottom: .3rem;
+}
+.overlay-year {
+  color: rgba(255,255,255,.65);
+  font-size: .75rem;
+  letter-spacing: .1em;
+}
+
+/* ── PROJECT VIEW (pantalla individual) ── */
+#project-view {
+  position: fixed; inset: 0; z-index: 500;
+  background: var(--white);
+  overflow-y: auto;
+  opacity: 0; pointer-events: none;
+  transition: opacity .35s ease;
+}
+#project-view.open { opacity: 1; pointer-events: auto; }
+
+.pv-topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.25rem 2rem;
+  background: var(--white);
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.pv-back {
+  font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--gray); background: none; border: none; cursor: pointer;
+  transition: color .2s; display: flex; align-items: center; gap: .5rem;
+  padding: 0;
+}
+.pv-back:hover { color: var(--black); }
+.pv-back::before { content: '←'; font-size: .9rem; }
+
+.pv-project-title {
+  font-size: .85rem; font-weight: 400; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--black);
+}
+
+.pv-project-year {
+  font-size: .75rem; color: var(--gray); letter-spacing: .06em;
+}
+
+/* Galería del proyecto — fotos a ancho completo apiladas */
+.pv-content {
+  padding-top: 4rem; /* topbar height */
+}
+
+.pv-header-block {
+  padding: 4rem 2rem 3rem;
+  max-width: 600px;
+}
+.pv-header-block h2 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 400;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.pv-header-block p {
+  font-size: .85rem;
+  color: var(--gray);
+  line-height: 1.7;
+}
+
+/* GALERÍA: fotos en cuadrícula tipo masonry de 2 columnas */
+.pv-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  padding: 0 0 6rem;
+}
+
+.pv-photo {
+  overflow: hidden;
+  cursor: zoom-in;
+  background: #f0f0f0;
+}
+
+/* Alternar proporciones para ritmo visual */
+.pv-photo:nth-child(3n+1) { aspect-ratio: 3/4; }
+.pv-photo:nth-child(3n+2) { aspect-ratio: 4/3; }
+.pv-photo:nth-child(3n)   { aspect-ratio: 1/1; }
+
+/* Cada cierto número, una foto a ancho completo */
+.pv-photo.full { grid-column: 1 / -1; aspect-ratio: 16/9; }
+
+.pv-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform .6s ease;
+}
+.pv-photo:hover img { transform: scale(1.02); }
+
+.pv-photo-placeholder {
+  width: 100%; height: 100%;
+  background: #ebebeb;
+  display: flex; align-items: center; justify-content: center;
+  color: #bbb; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+}
+
+.pv-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 2rem;
+  border-top: 1px solid #f0f0f0;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--white);
+}
+.pv-nav-btn {
+  font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--gray); background: none; border: none; cursor: pointer;
+  transition: color .2s;
+}
+.pv-nav-btn:hover { color: var(--black); }
+.pv-nav-btn.prev::before { content: '← '; }
+.pv-nav-btn.next::after  { content: ' →'; }
+.pv-nav-btn:disabled { opacity: .2; pointer-events: none; }
+
+/* ── LIGHTBOX ── */
+#lightbox {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,.95);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s;
+}
+#lightbox.open { opacity: 1; pointer-events: auto; }
+#lightbox img {
+  max-width: 92vw; max-height: 92vh;
+  object-fit: contain; display: block;
+}
+.lb-close {
+  position: fixed; top: 1.5rem; right: 2rem;
+  color: rgba(255,255,255,.5); background: none; border: none;
+  font-size: 1.5rem; cursor: pointer; transition: color .2s;
+}
+.lb-close:hover { color: #fff; }
+.lb-prev, .lb-next {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  color: rgba(255,255,255,.4); background: none; border: none;
+  font-size: 2rem; cursor: pointer; transition: color .2s;
+  padding: 1rem;
+}
+.lb-prev { left: 1rem; }
+.lb-next { right: 1rem; }
+.lb-prev:hover, .lb-next:hover { color: #fff; }
+
+/* ── ABOUT / FOOTER ── */
+#about {
+  border-top: 1px solid #f0f0f0;
+  padding: 6rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.about-name {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 1.5rem;
+}
+.about-text {
+  font-size: .85rem;
+  color: var(--gray);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+.about-contact { display: flex; flex-direction: column; gap: .75rem; }
+.about-contact a {
+  font-size: .8rem; letter-spacing: .1em; text-transform: uppercase;
+  text-decoration: none; color: var(--gray); transition: color .2s;
+}
+.about-contact a:hover { color: var(--black); }
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  border-top: 1px solid #f0f0f0;
+  font-size: .7rem;
+  color: var(--light);
+  letter-spacing: .08em;
+}
+
+/* ── ADMIN ── */
+.admin-btn {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
+  background: var(--black); color: #fff;
+  font-family: var(--font); font-size: .65rem; letter-spacing: .12em; text-transform: uppercase;
+  border: none; padding: .6rem 1.1rem; cursor: pointer;
+  opacity: .35; transition: opacity .2s;
+}
+.admin-btn:hover { opacity: 1; }
+
+/* Admin panel */
+.admin-overlay {
+  position: fixed; inset: 0; z-index: 800;
+  background: rgba(0,0,0,.4);
+  opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+.admin-overlay.open { opacity: 1; pointer-events: auto; }
+
+.admin-panel {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 801;
+  width: min(500px, 100vw);
+  background: #111; color: #eee;
+  display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform .3s ease;
+  overflow: hidden;
+}
+.admin-panel.open { transform: none; }
+
+.ap-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #222;
+  flex-shrink: 0;
+}
+.ap-head-title { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: #555; }
+.ap-close { background: none; border: none; color: #555; font-size: 1.1rem; cursor: pointer; }
+.ap-close:hover { color: #eee; }
+
+.ap-tabs { display: flex; border-bottom: 1px solid #222; flex-shrink: 0; }
+.ap-tab {
+  flex: 1; padding: .75rem; font-family: var(--font);
+  font-size: .65rem; letter-spacing: .12em; text-transform: uppercase;
+  color: #444; background: none; border: none; cursor: pointer;
+  border-bottom: 2px solid transparent; transition: all .2s;
+}
+.ap-tab.active { color: #eee; border-bottom-color: #fff; }
+
+.ap-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
+.ap-body::-webkit-scrollbar { width: 3px; }
+.ap-body::-webkit-scrollbar-thumb { background: #333; }
+
+.ap-section { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase;
+  color: #444; margin: 1.25rem 0 .6rem; border-bottom: 1px solid #1e1e1e; padding-bottom: .4rem; }
+
+.af { display: flex; flex-direction: column; gap: .3rem; margin-bottom: .9rem; }
+.af label { font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: #555; }
+.af input, .af textarea, .af select {
+  background: #1a1a1a; border: 1px solid #2a2a2a; color: #eee;
+  font-family: var(--font); font-size: .8rem; padding: .5rem .65rem;
+  outline: none; transition: border-color .2s; resize: vertical;
+}
+.af input:focus, .af textarea:focus { border-color: #444; }
+.af textarea { min-height: 60px; }
+.af-row { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+
+/* Project list in admin */
+.ap-project-list { display: flex; flex-direction: column; gap: .4rem; }
+.ap-project-row {
+  display: flex; align-items: center; gap: .75rem;
+  background: #1a1a1a; padding: .65rem .75rem;
+  cursor: pointer; transition: background .15s;
+}
+.ap-project-row:hover { background: #222; }
+.apr-drag { color: #333; font-size: .9rem; cursor: grab; }
+.apr-num { font-size: .6rem; color: #444; width: 16px; flex-shrink: 0; }
+.apr-name { flex: 1; font-size: .8rem; }
+.apr-meta { font-size: .65rem; color: #555; }
+.apr-edit { font-size: .65rem; letter-spacing: .08em; text-transform: uppercase;
+  color: #555; background: none; border: 1px solid #2a2a2a; padding: .25rem .5rem;
+  cursor: pointer; font-family: var(--font); transition: all .15s; flex-shrink: 0; }
+.apr-edit:hover { color: #eee; border-color: #555; }
+
+/* Buttons */
+.abtn {
+  font-family: var(--font); font-size: .65rem; letter-spacing: .12em; text-transform: uppercase;
+  padding: .5rem 1rem; border: none; cursor: pointer; transition: all .2s;
+}
+.abtn-white { background: #eee; color: #111; }
+.abtn-white:hover { background: #fff; }
+.abtn-ghost { background: none; border: 1px solid #2a2a2a; color: #555; }
+.abtn-ghost:hover { border-color: #555; color: #eee; }
+.abtn-danger { background: none; border: 1px solid #5a1a1a; color: #c0392b; }
+.abtn-danger:hover { background: rgba(192,57,43,.1); }
+.abtn-full { width: 100%; display: flex; justify-content: center; }
+
+.ap-footer {
+  padding: 1rem 1.5rem; border-top: 1px solid #222; display: flex;
+  gap: .5rem; justify-content: flex-end; flex-shrink: 0;
+}
+
+/* Project editor panel */
+.ap-editor {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 802;
+  width: min(500px, 100vw); background: #161616; color: #eee;
+  display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform .3s ease;
+  overflow: hidden;
+}
+.ap-editor.open { transform: none; }
+
+/* Photo list in editor */
+.photo-list { display: flex; flex-direction: column; gap: .35rem; }
+.photo-row {
+  display: flex; align-items: center; gap: .6rem;
+  background: #1a1a1a; padding: .5rem .65rem;
+}
+.photo-thumb { width: 38px; height: 38px; object-fit: cover; background: #222; flex-shrink: 0; }
+.photo-thumb-ph { width: 38px; height: 38px; background: #222; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: .6rem; color: #444; }
+.photo-info { flex: 1; min-width: 0; }
+.photo-src { font-size: .65rem; color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.photo-cap { font-size: .75rem; }
+.photo-del { background: none; border: none; color: #5a3030; font-size: .85rem; cursor: pointer; flex-shrink: 0; }
+.photo-del:hover { color: #c0392b; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 5rem; left: 50%; transform: translateX(-50%) translateY(1rem);
+  background: var(--black); color: #fff;
+  font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+  padding: .65rem 1.25rem; opacity: 0; transition: all .3s; z-index: 2000; pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Confirm */
+.confirm-overlay {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(0,0,0,.6);
+  display: none; align-items: center; justify-content: center;
+}
+.confirm-overlay.show { display: flex; }
+.confirm-box {
+  background: #111; padding: 2rem; max-width: 320px; text-align: center;
+}
+.confirm-msg { font-size: .85rem; color: #aaa; margin-bottom: 1.5rem; line-height: 1.6; }
+.confirm-btns { display: flex; gap: .5rem; justify-content: center; }
+
+@media (max-width: 600px) {
+  .project-row.three { grid-template-columns: 1fr 1fr; }
+  .project-row.two-third, .project-row.one-third { grid-template-columns: 1fr; }
+  #about { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.5rem; }
+  .pv-gallery { grid-template-columns: 1fr; }
+  .pv-photo.full, .pv-photo { aspect-ratio: 4/3; grid-column: auto; }
+  #hero h1 { font-size: 2.2rem; }
+}
+</style>
+</head>
+<body style="">
+
+<!-- HERO -->
+<section id="hero">
+  <h1 id="heroName">Leire Gómez </h1>
+  <p id="heroSub">Fotografía · Bellas Artes</p>
+  <div class="hero-links">
+    <a href="https://leiregoizagomez.github.io/Portfolio/#about">Info</a>
+    <a href="https://instagram.com/" target="_blank" id="heroIg">Instagram</a>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- PROJECTS GRID -->
+<section id="projects"><div class="project-row two"><div class="project-thumb"><div class="project-thumb-placeholder">Serie Umbral</div><div class="project-thumb-overlay"><p class="overlay-title">Serie Umbral</p><p class="overlay-year">2024</p></div></div><div class="project-thumb"><div class="project-thumb-placeholder">Cuerpo y espacio</div><div class="project-thumb-overlay"><p class="overlay-title">Cuerpo y espacio</p><p class="overlay-year">2023</p></div></div></div><div class="project-row three"><div class="project-thumb"><div class="project-thumb-placeholder">Memoria de lugar</div><div class="project-thumb-overlay"><p class="overlay-title">Memoria de lugar</p><p class="overlay-year">2024</p></div></div><div class="project-thumb"><div class="project-thumb-placeholder">Luz de tarde</div><div class="project-thumb-overlay"><p class="overlay-title">Luz de tarde</p><p class="overlay-year">2023</p></div></div><div class="project-thumb"><div class="project-thumb-placeholder">Naturaleza quieta</div><div class="project-thumb-overlay"><p class="overlay-title">Naturaleza quieta</p><p class="overlay-year">2022</p></div></div></div><div class="project-row one"><div class="project-thumb"><div class="project-thumb-placeholder">Retrato sin rostro</div><div class="project-thumb-overlay"><p class="overlay-title">Retrato sin rostro</p><p class="overlay-year">2024</p></div></div></div><div class="project-row two-third"><div class="project-thumb"><div class="project-thumb-placeholder">Lo doméstico</div><div class="project-thumb-overlay"><p class="overlay-title">Lo doméstico</p><p class="overlay-year">2023</p></div></div><div class="project-thumb"><div class="project-thumb-placeholder">Agua y tiempo</div><div class="project-thumb-overlay"><p class="overlay-title">Agua y tiempo</p><p class="overlay-year">2022</p></div></div></div><div class="project-row one-third"><div class="project-thumb"><div class="project-thumb-placeholder">Archivo familiar</div><div class="project-thumb-overlay"><p class="overlay-title">Archivo familiar</p><p class="overlay-year">2023</p></div></div><div class="project-thumb"><div class="project-thumb-placeholder">Trabajo de campo</div><div class="project-thumb-overlay"><p class="overlay-title">Trabajo de campo</p><p class="overlay-year">2024</p></div></div></div></section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <p class="about-name" id="aboutName">Leire Gómez </p>
+    <p class="about-text" id="aboutText1">Artista visual licenciada en Bellas Artes. Mi trabajo explora [tu propuesta artística].</p>
+    <p class="about-text" id="aboutText2">Disponible para proyectos, colaboraciones y exposiciones.</p>
+  </div>
+  <div class="about-contact">
+    <a href="mailto:tu@email.com" id="aboutEmail">tu@email.com</a>
+    <a href="https://instagram.com/" target="_blank" id="aboutIg">Instagram</a>
+  </div>
+</section>
+
+<footer>© <span id="footerYear">2026</span> <span id="footerName">Leire Gómez </span></footer>
+
+<!-- PROJECT VIEW -->
+<div id="project-view" class="">
+  <div class="pv-topbar">
+    <button class="pv-back" onclick="closeProject()">Volver</button>
+    <span class="pv-project-title" id="pvTitle">Serie Umbral</span>
+    <span class="pv-project-year" id="pvYear">2024 · Fotografía analógica · 35mm</span>
+  </div>
+  <div class="pv-content">
+    <div class="pv-header-block">
+      <h2 id="pvName">Serie Umbral</h2>
+      <p id="pvDesc">Una exploración del concepto de límite a través de puertas, ventanas y espacios intermedios.</p>
+    </div>
+    <div class="pv-gallery" id="pvGallery"><div class="pv-photo full">
+      <div class="pv-photo-placeholder" style="height:300px;background:#ebebeb;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;">Umbral I</div>
+    </div><div class="pv-photo">
+      <div class="pv-photo-placeholder" style="height:300px;background:#ebebeb;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;">Umbral II</div>
+    </div><div class="pv-photo">
+      <div class="pv-photo-placeholder" style="height:300px;background:#ebebeb;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;">Umbral III</div>
+    </div><div class="pv-photo">
+      <div class="pv-photo-placeholder" style="height:300px;background:#ebebeb;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;">Umbral IV</div>
+    </div><div class="pv-photo">
+      <div class="pv-photo-placeholder" style="height:300px;background:#ebebeb;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;">Umbral V</div>
+    </div></div>
+    <div style="height:4rem;"></div>
+  </div>
+  <div class="pv-nav">
+    <button class="pv-nav-btn prev" id="pvPrev" onclick="navigateProject(-1)" disabled="">Anterior</button>
+    <button class="pv-nav-btn next" id="pvNext" onclick="navigateProject(1)">Siguiente</button>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button class="lb-close" onclick="closeLb()">✕</button>
+  <button class="lb-prev" onclick="lbNav(-1)">‹</button>
+  <img id="lbImg" src="https://leiregoizagomez.github.io/Portfolio/" alt="">
+  <button class="lb-next" onclick="lbNav(1)">›</button>
+</div>
+
+<!-- ADMIN BUTTON -->
+<button class="admin-btn" onclick="openAdmin()">✦ Editar</button>
+
+<!-- ADMIN OVERLAY -->
+<div class="admin-overlay" id="adminOverlay" onclick="closeAdmin()"></div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel">
+  <div class="ap-head">
+    <span class="ap-head-title">Panel de edición</span>
+    <button class="ap-close" onclick="closeAdmin()">✕</button>
+  </div>
+  <div class="ap-tabs">
+    <button class="ap-tab" onclick="apTab(&#39;projects&#39;, this)">Proyectos</button>
+    <button class="ap-tab active" onclick="apTab(&#39;site&#39;, this)">Sitio</button>
+  </div>
+  <div class="ap-body" id="apBody">
+    <div id="apProjects" style="display: none;">
+      <p class="ap-section">Proyectos</p>
+      <div class="ap-project-list" id="apProjectList">
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">01</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Serie Umbral</p>
+        <p class="apr-meta">2024 · 5 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(0)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">02</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Cuerpo y espacio</p>
+        <p class="apr-meta">2023 · 4 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(1)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">03</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Memoria de lugar</p>
+        <p class="apr-meta">2024 · 3 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(2)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">04</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Luz de tarde</p>
+        <p class="apr-meta">2023 · 4 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(3)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">05</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Naturaleza quieta</p>
+        <p class="apr-meta">2022 · 3 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(4)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">06</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Retrato sin rostro</p>
+        <p class="apr-meta">2024 · 4 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(5)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">07</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Lo doméstico</p>
+        <p class="apr-meta">2023 · 3 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(6)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">08</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Agua y tiempo</p>
+        <p class="apr-meta">2022 · 3 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(7)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">09</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Archivo familiar</p>
+        <p class="apr-meta">2023 · 3 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(8)">Editar</button>
+    </div>
+  
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">10</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">Trabajo de campo</p>
+        <p class="apr-meta">2024 · 3 fotos</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(9)">Editar</button>
+    </div>
+  </div>
+      <div style="margin-top:.75rem;">
+        <button class="abtn abtn-ghost abtn-full" onclick="addProject()">+ Añadir proyecto</button>
+      </div>
+    </div>
+    <div id="apSite" style="">
+      <p class="ap-section">Nombre</p>
+      <div class="af"><label>Tu nombre</label><input id="sName" type="text"></div>
+      <p class="ap-section">Hero</p>
+      <div class="af"><label>Subtítulo</label><input id="sSub" type="text"></div>
+      <p class="ap-section">Sobre mí</p>
+      <div class="af"><label>Párrafo 1</label><textarea id="sText1"></textarea></div>
+      <div class="af"><label>Párrafo 2</label><textarea id="sText2"></textarea></div>
+      <p class="ap-section">Contacto</p>
+      <div class="af"><label>Email</label><input id="sEmail" type="email"></div>
+      <div class="af"><label>Instagram URL</label><input id="sIg" type="text"></div>
+    </div>
+  </div>
+  <div class="ap-footer">
+    <button class="abtn abtn-ghost" onclick="closeAdmin()">Cancelar</button>
+    <button class="abtn abtn-white" onclick="saveAll()">Guardar</button>
+  </div>
+</div>
+
+<!-- PROJECT EDITOR -->
+<div class="ap-editor" id="apEditor">
+  <div class="ap-head">
+    <button class="abtn abtn-ghost" onclick="closeEditor()" style="padding:.3rem .6rem;font-size:.6rem;">← Volver</button>
+    <span class="ap-head-title" id="editorTitle">Editar proyecto</span>
+    <button class="abtn abtn-white" onclick="saveEditor()" style="padding:.35rem .7rem;">Guardar</button>
+  </div>
+  <div class="ap-body">
+    <input type="hidden" id="edIdx">
+    <p class="ap-section">Info</p>
+    <div class="af"><label>Nombre del proyecto</label><input id="edName" type="text"></div>
+    <div class="af-row">
+      <div class="af"><label>Año</label><input id="edYear" type="text"></div>
+      <div class="af"><label>Técnica</label><input id="edTech" type="text"></div>
+    </div>
+    <div class="af"><label>Descripción</label><textarea id="edDesc"></textarea></div>
+    <div class="af"><label>Foto de portada (ruta)</label><input id="edCover" type="text" placeholder="fotos/proyecto/portada.jpg"></div>
+
+    <p class="ap-section">Fotografías</p>
+    <div class="photo-list" id="edPhotoList"></div>
+
+    <p class="ap-section" style="margin-top:1.25rem;">Añadir foto</p>
+    <div class="af"><label>Ruta</label><input id="newSrc" type="text" placeholder="fotos/proyecto/foto1.jpg"></div>
+    <div class="af"><label>Pie de foto (opcional)</label><input id="newCap" type="text"></div>
+    <button class="abtn abtn-ghost abtn-full" onclick="addPhoto()" style="margin-bottom:1.5rem;">+ Añadir</button>
+
+    <p class="ap-section">Zona de peligro</p>
+    <button class="abtn abtn-danger abtn-full" onclick="deleteProject()">Eliminar proyecto</button>
+    <div style="height:1rem;"></div>
+  </div>
+</div>
+
+<!-- CONFIRM -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <p class="confirm-msg" id="confirmMsg"></p>
+    <div class="confirm-btns">
+      <button class="abtn abtn-ghost" onclick="confirmDone(false)">Cancelar</button>
+      <button class="abtn abtn-danger" onclick="confirmDone(true)">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Guardado</div>
+
+<script>
+/* ══════════════════════════════════════
+   DATOS
+══════════════════════════════════════ */
+const DEFAULT_PROJECTS = [
+  { name:"Serie Umbral", year:"2024", technique:"Fotografía analógica · 35mm",
+    desc:"Una exploración del concepto de límite a través de puertas, ventanas y espacios intermedios.",
+    cover:null, photos:[
+      {src:null,cap:"Umbral I"},{src:null,cap:"Umbral II"},{src:null,cap:"Umbral III"},
+      {src:null,cap:"Umbral IV"},{src:null,cap:"Umbral V"}] },
+  { name:"Cuerpo y espacio", year:"2023", technique:"Fotografía digital",
+    desc:"Serie sobre la relación entre el cuerpo humano y la arquitectura.",
+    cover:null, photos:[
+      {src:null,cap:"I"},{src:null,cap:"II"},{src:null,cap:"III"},{src:null,cap:"IV"}] },
+  { name:"Memoria de lugar", year:"2024", technique:"Medio formato",
+    desc:"Espacios abandonados como depositarios de memoria colectiva.",
+    cover:null, photos:[{src:null,cap:"I"},{src:null,cap:"II"},{src:null,cap:"III"}] },
+  { name:"Luz de tarde", year:"2023", technique:"Fotografía digital",
+    desc:"La hora dorada como tiempo suspendido.",
+    cover:null, photos:[{src:null,cap:"I"},{src:null,cap:"II"},{src:null,cap:"III"},{src:null,cap:"IV"}] },
+  { name:"Naturaleza quieta", year:"2022", technique:"Large format",
+    desc:"Naturalezas muertas en diálogo con la tradición pictórica.",
+    cover:null, photos:[{src:null,cap:"I"},{src:null,cap:"II"},{src:null,cap:"III"}] },
+  { name:"Retrato sin rostro", year:"2024", technique:"Fotografía analógica",
+    desc:"La identidad más allá del rostro.",
+    cover:null, photos:[{src:null,cap:"I"},{src:null,cap:"II"},{src:null,cap:"III"},{src:null,cap:"IV"}] },
+  { name:"Lo doméstico", year:"2023", technique:"Fotografía digital",
+    desc:"El hogar como escenario de la vida interior.",
+    cover:null, photos:[{src:null,cap:"I"},{src:null,cap:"II"},{src:null,cap:"III"}] },
+  { name:"Agua y tiempo", year:"2022", technique:"Larga exposición",
+    desc:"El agua como metáfora del tiempo.",
+    cover:null, photos:[{src:null,cap:"I"},{src:null,cap:"II"},{src:null,cap:"III"}] },
+  { name:"Archivo familiar", year:"2023", technique:"Técnica mixta",
+    desc:"Intervención sobre fotografías familiares.",
+    cover:null, photos:[{src:null,cap:"I"},{src:null,cap:"II"},{src:null,cap:"III"}] },
+  { name:"Trabajo de campo", year:"2024", technique:"Fotografía documental",
+    desc:"Entornos naturales con mirada artística.",
+    cover:null, photos:[{src:null,cap:"I"},{src:null,cap:"II"},{src:null,cap:"III"}] },
+];
+
+const DEFAULT_SITE = {
+  name:"Tu Nombre", sub:"Fotografía · Bellas Artes",
+  text1:"Artista visual licenciada en Bellas Artes. Mi trabajo explora [tu propuesta artística].",
+  text2:"Disponible para proyectos, colaboraciones y exposiciones.",
+  email:"tu@email.com", ig:"https://instagram.com/"
+};
+
+function loadData() {
+  try {
+    const p = localStorage.getItem('pf2_projects');
+    const s = localStorage.getItem('pf2_site');
+    return {
+      projects: p ? JSON.parse(p) : JSON.parse(JSON.stringify(DEFAULT_PROJECTS)),
+      site:     s ? JSON.parse(s) : { ...DEFAULT_SITE }
+    };
+  } catch { return { projects: JSON.parse(JSON.stringify(DEFAULT_PROJECTS)), site: { ...DEFAULT_SITE } }; }
+}
+
+let { projects: PROJECTS, site: SITE } = loadData();
+
+function save() {
+  localStorage.setItem('pf2_projects', JSON.stringify(PROJECTS));
+  localStorage.setItem('pf2_site',     JSON.stringify(SITE));
+}
+
+/* ══════════════════════════════════════
+   RENDER SITE
+══════════════════════════════════════ */
+function applySite() {
+  document.title = SITE.name;
+  document.getElementById('heroName').textContent  = SITE.name;
+  document.getElementById('heroSub').textContent   = SITE.sub;
+  document.getElementById('heroIg').href           = SITE.ig;
+  document.getElementById('aboutName').textContent = SITE.name;
+  document.getElementById('aboutText1').textContent= SITE.text1;
+  document.getElementById('aboutText2').textContent= SITE.text2;
+  document.getElementById('aboutEmail').href       = 'mailto:' + SITE.email;
+  document.getElementById('aboutEmail').textContent= SITE.email;
+  document.getElementById('aboutIg').href          = SITE.ig;
+  document.getElementById('footerName').textContent= SITE.name;
+  document.getElementById('footerYear').textContent= new Date().getFullYear();
+}
+
+/* ══════════════════════════════════════
+   RENDER PROJECTS GRID
+   Patrón de filas variado para que no quede en línea
+══════════════════════════════════════ */
+// Secuencia de layouts de fila: cuántas columnas toma cada proyecto
+// Los números son "cuántos proyectos caben en esta fila" y qué clase CSS tienen
+const ROW_PATTERNS = [
+  { cols: 2, cls: 'two' },       // 2 fotos grandes
+  { cols: 3, cls: 'three' },     // 3 fotos medianas
+  { cols: 1, cls: 'one' },       // 1 foto panorámica
+  { cols: 2, cls: 'two-third' }, // 1 grande + 1 pequeña
+  { cols: 2, cls: 'one-third' }, // 1 pequeña + 1 grande
+  { cols: 3, cls: 'three' },
+  { cols: 2, cls: 'two' },
+];
+
+function renderGrid() {
+  const el = document.getElementById('projects');
+  el.innerHTML = '';
+  let i = 0, patI = 0;
+  while (i < PROJECTS.length) {
+    const pat = ROW_PATTERNS[patI % ROW_PATTERNS.length];
+    const row = document.createElement('div');
+    row.className = 'project-row ' + pat.cls;
+    const count = Math.min(pat.cols, PROJECTS.length - i);
+    for (let j = 0; j < count; j++) {
+      row.appendChild(makeThumb(i + j));
+    }
+    el.appendChild(row);
+    i += count;
+    patI++;
+  }
+}
+
+function makeThumb(idx) {
+  const p = PROJECTS[idx];
+  const div = document.createElement('div');
+  div.className = 'project-thumb';
+  div.onclick = () => openProject(idx);
+
+  if (p.cover) {
+    const img = document.createElement('img');
+    img.src = p.cover; img.alt = p.name;
+    div.appendChild(img);
+  } else {
+    const ph = document.createElement('div');
+    ph.className = 'project-thumb-placeholder';
+    ph.textContent = p.name;
+    div.appendChild(ph);
+  }
+
+  const overlay = document.createElement('div');
+  overlay.className = 'project-thumb-overlay';
+  overlay.innerHTML = `<p class="overlay-title">${p.name}</p><p class="overlay-year">${p.year}</p>`;
+  div.appendChild(overlay);
+
+  return div;
+}
+
+/* ══════════════════════════════════════
+   PROJECT VIEW
+══════════════════════════════════════ */
+let currentIdx = null, lbPhotos = [], lbCurrent = 0;
+
+function openProject(idx) {
+  currentIdx = idx;
+  const p = PROJECTS[idx];
+  document.getElementById('pvTitle').textContent = p.name;
+  document.getElementById('pvYear').textContent  = p.year + (p.technique ? ' · ' + p.technique : '');
+  document.getElementById('pvName').textContent  = p.name;
+  document.getElementById('pvDesc').textContent  = p.desc || '';
+  document.getElementById('pvPrev').disabled = idx === 0;
+  document.getElementById('pvNext').disabled = idx === PROJECTS.length - 1;
+
+  // Galería — marca una de cada 4 como full width
+  lbPhotos = p.photos.filter(ph => ph.src);
+  let lbIdx = 0;
+  document.getElementById('pvGallery').innerHTML = p.photos.map((ph, i) => {
+    const full = (i === 0 || (i > 0 && i % 5 === 0)) ? ' full' : '';
+    const thisLb = ph.src ? lbIdx++ : -1;
+    const click  = ph.src ? `onclick="openLb(${thisLb})"` : '';
+    return `<div class="pv-photo${full}" ${click}>
+      ${ph.src
+        ? `<img src="${ph.src}" alt="${ph.cap||''}" loading="lazy">`
+        : `<div class="pv-photo-placeholder" style="height:300px;background:#ebebeb;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;">${ph.cap||''}</div>`}
+    </div>`;
+  }).join('');
+
+  const view = document.getElementById('project-view');
+  view.classList.add('open');
+  view.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProject() {
+  document.getElementById('project-view').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function navigateProject(dir) {
+  const next = currentIdx + dir;
+  if (next >= 0 && next < PROJECTS.length) openProject(next);
+}
+
+/* ══════════════════════════════════════
+   LIGHTBOX
+══════════════════════════════════════ */
+function openLb(i) {
+  lbCurrent = i;
+  document.getElementById('lbImg').src = lbPhotos[i].src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLb() { document.getElementById('lightbox').classList.remove('open'); }
+function lbNav(dir) {
+  lbCurrent = Math.max(0, Math.min(lbPhotos.length - 1, lbCurrent + dir));
+  document.getElementById('lbImg').src = lbPhotos[lbCurrent].src;
+}
+
+document.addEventListener('keydown', e => {
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowRight') lbNav(1);
+    if (e.key === 'ArrowLeft')  lbNav(-1);
+    return;
+  }
+  if (e.key === 'Escape') closeProject();
+  if (e.key === 'ArrowLeft')  navigateProject(-1);
+  if (e.key === 'ArrowRight') navigateProject(1);
+});
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === document.getElementById('lightbox')) closeLb();
+});
+
+/* ══════════════════════════════════════
+   ADMIN
+══════════════════════════════════════ */
+function openAdmin() {
+  loadSiteFields();
+  renderApProjectList();
+  document.getElementById('adminOverlay').classList.add('open');
+  document.getElementById('adminPanel').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAdmin() {
+  document.getElementById('adminOverlay').classList.remove('open');
+  document.getElementById('adminPanel').classList.remove('open');
+  document.getElementById('apEditor').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function apTab(tab, btn) {
+  document.querySelectorAll('.ap-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('apProjects').style.display = tab === 'projects' ? '' : 'none';
+  document.getElementById('apSite').style.display     = tab === 'site'     ? '' : 'none';
+}
+
+function renderApProjectList() {
+  document.getElementById('apProjectList').innerHTML = PROJECTS.map((p, i) => `
+    <div class="ap-project-row">
+      <span class="apr-drag">⠿</span>
+      <span class="apr-num">${String(i+1).padStart(2,'0')}</span>
+      <div style="flex:1;min-width:0;">
+        <p class="apr-name">${p.name}</p>
+        <p class="apr-meta">${p.year} · ${p.photos.length} foto${p.photos.length!==1?'s':''}</p>
+      </div>
+      <button class="apr-edit" onclick="openEditor(${i})">Editar</button>
+    </div>
+  `).join('');
+}
+
+function addProject() {
+  PROJECTS.push({ name:'Nuevo proyecto', year:new Date().getFullYear()+'',
+    technique:'', desc:'', cover:null, photos:[] });
+  openEditor(PROJECTS.length - 1);
+  renderApProjectList();
+}
+
+function loadSiteFields() {
+  document.getElementById('sName').value  = SITE.name;
+  document.getElementById('sSub').value   = SITE.sub;
+  document.getElementById('sText1').value = SITE.text1;
+  document.getElementById('sText2').value = SITE.text2;
+  document.getElementById('sEmail').value = SITE.email;
+  document.getElementById('sIg').value    = SITE.ig;
+}
+
+function saveAll() {
+  SITE.name  = document.getElementById('sName').value  || SITE.name;
+  SITE.sub   = document.getElementById('sSub').value;
+  SITE.text1 = document.getElementById('sText1').value;
+  SITE.text2 = document.getElementById('sText2').value;
+  SITE.email = document.getElementById('sEmail').value;
+  SITE.ig    = document.getElementById('sIg').value;
+  save();
+  applySite();
+  renderGrid();
+  showToast('Guardado');
+}
+
+/* ══════════════════════════════════════
+   PROJECT EDITOR
+══════════════════════════════════════ */
+let edPhotos = [];
+
+function openEditor(idx) {
+  const p = PROJECTS[idx];
+  document.getElementById('edIdx').value     = idx;
+  document.getElementById('editorTitle').textContent = p.name;
+  document.getElementById('edName').value    = p.name;
+  document.getElementById('edYear').value    = p.year;
+  document.getElementById('edTech').value    = p.technique || '';
+  document.getElementById('edDesc').value    = p.desc || '';
+  document.getElementById('edCover').value   = p.cover || '';
+  edPhotos = JSON.parse(JSON.stringify(p.photos));
+  renderPhotoList();
+  document.getElementById('apEditor').classList.add('open');
+}
+
+function closeEditor() {
+  document.getElementById('apEditor').classList.remove('open');
+  renderApProjectList();
+}
+
+function renderPhotoList() {
+  const list = document.getElementById('edPhotoList');
+  if (!edPhotos.length) {
+    list.innerHTML = '<p style="font-size:.7rem;color:#444;padding:.25rem 0;">Sin fotos aún</p>';
+    return;
+  }
+  list.innerHTML = edPhotos.map((ph, i) => `
+    <div class="photo-row">
+      ${ph.src
+        ? `<img class="photo-thumb" src="${ph.src}" onerror="this.style.display='none'">`
+        : `<div class="photo-thumb-ph">?</div>`}
+      <div class="photo-info">
+        <p class="photo-cap">${ph.cap || '(sin pie)'}</p>
+        <p class="photo-src">${ph.src || 'sin imagen'}</p>
+      </div>
+      <button class="photo-del" onclick="removePhoto(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function addPhoto() {
+  const src = document.getElementById('newSrc').value.trim();
+  const cap = document.getElementById('newCap').value.trim();
+  if (!src && !cap) return;
+  edPhotos.push({ src: src || null, cap: cap || '' });
+  document.getElementById('newSrc').value = '';
+  document.getElementById('newCap').value = '';
+  renderPhotoList();
+}
+
+function removePhoto(i) { edPhotos.splice(i, 1); renderPhotoList(); }
+
+function saveEditor() {
+  const idx = parseInt(document.getElementById('edIdx').value);
+  PROJECTS[idx] = {
+    name:      document.getElementById('edName').value.trim() || 'Sin título',
+    year:      document.getElementById('edYear').value.trim(),
+    technique: document.getElementById('edTech').value.trim(),
+    desc:      document.getElementById('edDesc').value.trim(),
+    cover:     document.getElementById('edCover').value.trim() || null,
+    photos:    edPhotos
+  };
+  save();
+  renderGrid();
+  showToast('Proyecto guardado');
+  closeEditor();
+}
+
+/* ══════════════════════════════════════
+   DELETE
+══════════════════════════════════════ */
+let confirmFn = null;
+function confirm2(msg) {
+  return new Promise(res => {
+    document.getElementById('confirmMsg').textContent = msg;
+    document.getElementById('confirmOverlay').classList.add('show');
+    confirmFn = res;
+  });
+}
+function confirmDone(v) {
+  document.getElementById('confirmOverlay').classList.remove('show');
+  if (confirmFn) confirmFn(v);
+}
+async function deleteProject() {
+  const idx  = parseInt(document.getElementById('edIdx').value);
+  const name = PROJECTS[idx].name;
+  const ok   = await confirm2(`¿Eliminar "${name}"?`);
+  if (!ok) return;
+  PROJECTS.splice(idx, 1);
+  save(); renderGrid();
+  showToast('Proyecto eliminado');
+  closeEditor();
+}
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+applySite();
+renderGrid();
+</script>
+
+
+</body></html>
